@@ -88,6 +88,9 @@ if not groups:
 
 # Form
 with st.form("config_form"):
+    st.subheader("General Settings")
+    confirmation_number = st.text_input("Confirmation Phone Number (for approval)", value=current_config.get('confirmationNumber', ''))
+
     st.subheader("Schedule (Israel Time)")
     col1, col2, col3 = st.columns(3)
     
@@ -132,7 +135,8 @@ with st.form("config_form"):
                 "sat": sat_time
             },
             "message": message_text,
-            "targetGroups": [group_options[name] for name in selected_group_names]
+            "targetGroups": [group_options[name] for name in selected_group_names],
+            "confirmationNumber": confirmation_number
         }
         
         # Send to backend

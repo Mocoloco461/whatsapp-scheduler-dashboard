@@ -53,7 +53,8 @@ const defaultConfig = {
     },
     message: "Hello! This is a broadcast message.",
     imagePath: null,
-    targetGroups: [] // List of Group IDs
+    targetGroups: [], // List of Group IDs
+    confirmationNumber: "" // Number to send confirmation request to
 };
 
 // Load Config
@@ -120,7 +121,6 @@ client.on('disconnected', (reason) => {
 });
 
 // Confirmation Logic
-const CONFIRMATION_NUMBER = '972508838662@c.us'; // 0508838662
 let lastConfirmationMsgId = null;
 
 async function sendConfirmationRequest() {
@@ -128,8 +128,40 @@ async function sendConfirmationRequest() {
         console.log('Client not ready, cannot send confirmation request.');
         return;
     }
+
+    const config = loadConfig();
+    const text = config.message;
+    const imagePath = config.imagePath;
+    let confirmationNumber = config.confirmationNumber;
+
+    if (!confirmationNumber) {
+        console.log('No confirmation number configured. Skipping confirmation request.');
+        return;
+    }
+
+    // Basic formatting: if it looks like a local number (starts with 0), convert to 972
+    // and ensure it ends with @c.us
+    if (!confirmationNumber.includes('@c.us')) {
+        confirmationNumber = confirmationNumber.replace(/\D/g, ''); // Remove non-digits
+        if (confirmationNumber.startsWith('0')) {
+            confirmationNumber = '972' + confirmationNumber.substring(1);
+        }
+        confirmationNumber += '@c.us';
+    }
+
+    let media = null;
+    if (imagePath && fs.existsSync(imagePath)) {
+        media = MessageMedia.fromFilePath(imagePath);
+    }
+
     try {
-        const msg = await client.sendMessage(CONFIRMATION_NUMBER, 'Should I run the automation? React with 👍 to confirm.');
+        let msg;
+        if (media) {
+            msg = await client.sendMessage(confirmationNumber, media, { caption: text });
+        } else {
+            msg = await client.sendMessage(confirmationNumber, text);
+        }
+
         lastConfirmationMsgId = msg.id._serialized;
         console.log('Confirmation request sent. Msg ID:', lastConfirmationMsgId);
     } catch (error) {
