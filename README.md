@@ -17,9 +17,9 @@ A complete WhatsApp automation system running in Docker containers. This system 
 *   **Frontend:** Python Streamlit for a visual management dashboard.
 *   **Infrastructure:** Docker Compose for easy and fast environment management.
 
-![
-    
-](readme/image.png)
+![alt text](https://file%2B.vscode-resource.vscode-cdn.net/Users/moshe/production/automations/wahtsapp-compupair/readme/image.png?version%3D1764776416566)
+
+
 **Key Features:**
 *   🚀 **Broadcasts:** Send messages to defined distribution lists.
 *   ⏰ **Scheduled Messages:** Schedule future messages by date and time.
