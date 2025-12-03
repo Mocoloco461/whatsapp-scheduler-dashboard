@@ -1,0 +1,17 @@
+# General
+.DS_Store
+.env
+*.log
+
+# Node.js (Backend)
+backend/node_modules/
+backend/npm-debug.log
+backend/.wwebjs_auth/
+backend/.wwebjs_cache/
+
+# Python (Frontend)
+frontend/__pycache__/
+frontend/*.py[cod]
+frontend/.venv/
+frontend/venv/
+frontend/.streamlit/secrets.toml

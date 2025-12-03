@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: whatsapp-backend
+    restart: unless-stopped
+    volumes:
+      - whatsapp-data:/app/data
+      - ./backend/.wwebjs_auth:/app/.wwebjs_auth # Persist session locally for easy debugging/backup
+    environment:
+      - TZ=Asia/Jerusalem
+    networks:
+      - whatsapp-net
+
+  frontend:
+    build: ./frontend
+    container_name: whatsapp-frontend
+    restart: unless-stopped
+    ports:
+      - "8501:8501"
+    environment:
+      - TZ=Asia/Jerusalem
+    depends_on:
+      - backend
+    networks:
+      - whatsapp-net
+
+volumes:
+  whatsapp-data:
+
+networks:
+  whatsapp-net:
+    driver: bridge
