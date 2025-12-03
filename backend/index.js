@@ -182,20 +182,7 @@ async function runBroadcast() {
         }
     }
 
-    // 2. Upload to Status (Story)
-    // Note: whatsapp-web.js might not fully support status upload in all versions, 
-    // but sendMessage to 'status@broadcast' is the standard way.
-    try {
-        if (media) {
-            await client.sendMessage('status@broadcast', media, { caption: text });
-            console.log('Uploaded to Status');
-        } else {
-            await client.sendMessage('status@broadcast', text, { backgroundColor: '#FF0000' }); // Text status needs options
-            console.log('Uploaded Text to Status');
-        }
-    } catch (error) {
-        console.error('Failed to upload to status:', error);
-    }
+
 }
 
 // Scheduler
