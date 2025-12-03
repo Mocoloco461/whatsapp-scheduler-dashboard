@@ -6,7 +6,7 @@
 
 <div id="english"></div>
 
-## 🇬🇧 English
+## English
 
 ### Project Description
 
